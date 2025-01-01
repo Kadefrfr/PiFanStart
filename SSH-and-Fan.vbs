@@ -4,6 +4,9 @@ Set objShell = CreateObject("WScript.Shell")
 
 
 'In order for this to work you need to set the cases of 'password' to the password for your user and set the 'user@ipadress' to the user and ip adress of your server/system
+'You can also change the speed to what you want as long as its in the rang of 0-255, mine is set to 160 which is roughly 62% speed
+'Last thing: in 'echo 160 | sudo tee /sys/class/hwmon/hwmon2/pwm1' the number 2 after hwmon might be different bassed of you system, to check just type that code into the terminal and see if it says the number initially stated (160 in my case) comes back, i fnot the try hwmon1 and up
+
 
 
 
