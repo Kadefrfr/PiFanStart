@@ -1,0 +1,7 @@
+i also used some othe command when trying to get the fan to works and id like to write them down before i forget them
+
+
+
+echo 255 | sudo tee /sys/class/hwmon/hwmon2/pwm1       test the fan
+stress --cpu 4 --timeout 60         stresses the cpu heating it to test if the fan is working
+vcgencmd measure_temp       checks the temp
