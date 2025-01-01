@@ -25,4 +25,4 @@ This VBS script automates SSH login and fan control on my server.
 - **Delay**: A 1-second wait ensures stability but may be reduced.
 - **Purpose**: Automates SSH and fan startup for convenience.
 
-This script simplifies server cooling while maintaining a clean terminal.  
+This script was originally created to simplify connecting to my server via SSH. However, since I couldn't get any of the methods I tried to start the fan to work, I realized I could simply start it when I connect. Albeit, it sends the command to start the fan even if it's already running (luckily, this doesn't cause any issues).
