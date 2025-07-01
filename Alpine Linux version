@@ -1,0 +1,35 @@
+Dim objShell
+Set objShell = CreateObject("WScript.Shell")
+
+' Open Command Prompt
+objShell.Run "cmd.exe"
+WScript.Sleep 500 ' Wait for Command Prompt to open
+
+' Type the SSH command
+objShell.SendKeys "ssh pi@192.168.0.21"
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 500
+
+' Type the password
+objShell.SendKeys "2157"
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 500
+
+' Enable PWM fan control
+objShell.SendKeys "echo 1 | doas tee /sys/class/hwmon/hwmon2/pwm1_enable"
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 700
+
+' Spam fan start command using doas
+For i = 1 To 11
+    objShell.SendKeys "echo 160 | doas tee /sys/class/hwmon/hwmon2/pwm1"
+    objShell.SendKeys "{ENTER}"
+    WScript.Sleep 50
+Next
+
+' Clear the terminal
+objShell.SendKeys "clear"
+objShell.SendKeys "{ENTER}"
+
+' Clean up
+Set objShell = Nothing
