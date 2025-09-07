@@ -1,0 +1,48 @@
+' FanControlTemplate.vbs
+' VBScript to SSH into a Raspberry Pi and control a PWM fan using doas
+' Replace values in angle brackets (<>) before using
+
+Dim objShell
+Set objShell = CreateObject("WScript.Shell")
+
+' === USER CONFIGURABLE SECTION ===
+Const sshUser = "<USERNAME>"         ' e.g., pi
+Const sshIP = "<IP_ADDRESS>"         ' e.g., 192.168.0.21
+Const sshPassword = "<PASSWORD>"     ' DO NOT HARDCODE IN PUBLIC REPO
+Const hwmonIndex = "<HWMON_INDEX>"   ' e.g., 2
+Const pwmSpeed = "<PWM_SPEED>"       ' e.g., 160 (range: 0–255)
+Const repeatCount = 11               ' How many times to send the command
+' ===================================
+
+' Open Command Prompt
+objShell.Run "cmd.exe"
+WScript.Sleep 500
+
+' SSH Command
+objShell.SendKeys "ssh " & sshUser & "@" & sshIP
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 500
+
+' Password Entry (NOT recommended for public use)
+objShell.SendKeys sshPassword
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 500
+
+' Enable PWM control
+objShell.SendKeys "echo 1 | doas tee /sys/class/hwmon/hwmon" & hwmonIndex & "/pwm1_enable"
+objShell.SendKeys "{ENTER}"
+WScript.Sleep 700
+
+' Spam PWM speed command
+For i = 1 To repeatCount
+    objShell.SendKeys "echo " & pwmSpeed & " | doas tee /sys/class/hwmon/hwmon" & hwmonIndex & "/pwm1"
+    objShell.SendKeys "{ENTER}"
+    WScript.Sleep 50
+Next
+
+' Clear terminal
+objShell.SendKeys "clear"
+objShell.SendKeys "{ENTER}"
+
+' Clean up
+Set objShell = Nothing
